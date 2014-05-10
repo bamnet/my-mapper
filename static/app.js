@@ -99,6 +99,9 @@ function loadFile(fileID){
     'fileId': fileID
   });
   request.execute(function(file) {
+    if (file.title) {
+      document.title = file.title + " - My Mapper";
+    }
     if (file.downloadUrl) {
       var xhr = new XMLHttpRequest();
       xhr.open('GET', file.downloadUrl);
