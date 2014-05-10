@@ -18,9 +18,8 @@ function onClientLoad() {
 
 function authenticate(manual) {
   gapi.auth.authorize({
-    'client_id': clientId,
-    'scope': ['https://www.googleapis.com/auth/drive.file',
-              'https://www.googleapis.com/auth/drive.install'],
+    'client_id': CLIENT_ID,
+    'scope': SCOPES,
     'immediate': !manual
   }, handleAuthResult);
 }
@@ -74,17 +73,13 @@ function handleAuthResult(authResult){
 
 function createPicker() {
   var view = new google.picker.View(google.picker.ViewId.DOCS);
-  var mimeTypes = [
-    'application/json','application/x-javascript','text/javascript',
-    'text/x-javascript','text/x-json','application/octet-stream'
-  ];
-  view.setMimeTypes(mimeTypes.join(','));
+  view.setMimeTypes(MIME_TYPES.join(','));
   var picker = new google.picker.PickerBuilder()
-      .setAppId(clientId)
+      .setAppId(CLIENT_ID)
       .setOAuthToken(gapi.auth.getToken().access_token)
       .addView(view)
       .addView(new google.picker.DocsUploadView())
-      .setDeveloperKey(developerKey)
+      .setDeveloperKey(DEVELOPER_KEY)
       .setCallback(pickerCallback)
       .build();
    picker.setVisible(true);
