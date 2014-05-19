@@ -1,14 +1,11 @@
 application: my-mapper-prod
-version: 1
+version: 2
 runtime: go
 api_version: go1
 
 handlers:
-- url: /(googlefb45b81ec251a757\.html)$
-  static_files: static/\1
-  upload: static/.*
 - url: /$
-  static_files: static/index.html
-  upload: static/.*
+  static_files: dist/index.html
+  upload: dist/.*
 - url: /
-  static_dir: static
+  static_dir: dist
