@@ -1,0 +1,60 @@
+<!doctype html>
+<html class="no-js">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Mapper</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+
+        <!-- build:css styles/main.css -->
+        <link rel="stylesheet" href="styles/main.css">
+        <!-- endbuild-->
+
+        <!-- Place your HTML imports here -->
+        <script src="bower_components/platform/platform.js"></script>
+        <script src="scripts/config.js"></script>
+        <script src="scripts/app.js"></script>
+        <link rel="import" href="bower_components/polymer-ui-toolbar/polymer-ui-toolbar.html">
+        <link rel="import" href="bower_components/polymer-ui-icon-button/polymer-ui-icon-button.html">
+        <link rel="import" href="bower_components/polymer-ui-toolbar/polymer-ui-toolbar.html">
+        <link rel="import" href="bower_components/polymer-ui-overlay/polymer-ui-overlay.html">
+        <link rel="import" href="bower_components/google-map/google-map.html">
+    </head>
+    <body unresolved>
+      <polymer-ui-toolbar>
+        <polymer-ui-icon-button icon="drawer" id="docOpen"></polymer-ui-icon-button>
+        <div flex id="title">Mapper</div>
+      </polymer-ui-toolbar>
+     <polymer-ui-overlay id="authOverlay" modal="true" backdrop="true">
+       <div>
+         <h2>Authorization Required</h2>
+         <div>
+           Mapper needs to be authorized to read files from your Google Drive.
+           Click below to allow access to read files and install an 'Open with Mapper' option in Google Drive.
+           <br /><br />Note: You may need to disable any pop-up blockers.
+         </div>
+         <button type="button" class="btn btn-default btn-lg" id="authButton">
+           <span class="glyphicon glyphicon-lock"></span>
+           Authorize
+         </button>
+      </div>
+      </polymer-ui-overlay>
+      <google-map latitude="1" longitude="1" zoom="2">
+      </google-map>
+      <script>
+        var map;
+        document.getElementById('authButton').addEventListener('click', function(){authenticate(true)});
+        document.getElementById('docOpen').addEventListener('click', createPicker);
+        document.addEventListener('WebComponentsReady', function() {
+          var googleMap = document.querySelector('google-map');
+          googleMap.addEventListener('api-load', function(e) {
+            map = this.map;
+          });
+        });
+      </script>
+      <script type='text/javascript' src='https://apis.google.com/js/api.js?onload=onApiLoad'></script>
+      <script type='text/javascript' src='https://apis.google.com/js/client.js?onload=onClientLoad'></script>
+    </body>
+</html>

@@ -1,12 +1,3 @@
-var map;
-
-function loadMapApi() {
-  var script = document.createElement('script');
-  script.type = 'text/javascript';
-  script.src = 'https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&callback=onMapApiLoad';
-  document.body.appendChild(script);
-}
-
 function onApiLoad() {
   gapi.load('auth', {'callback': authenticate});
   gapi.load('picker');
@@ -24,13 +15,6 @@ function authenticate(manual) {
   }, handleAuthResult);
 }
 
-function onMapApiLoad(){
-  var mapOptions = {
-    zoom: 4,
-    center: new google.maps.LatLng(-34.397, 150.644)
-  };
-  map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
-}
 
 function isDriveOpen(){
   return location.search.indexOf('?state=') > -1;
@@ -44,7 +28,6 @@ function getDriveState(){
 
 function authenticatedUser(){
   if (isDriveOpen()){
-    loadMapApi();
     driveState = getDriveState();
     if (driveState.action == "open") {
       loadFile(driveState.ids[0]);
@@ -55,19 +38,18 @@ function authenticatedUser(){
 };
 
 function handleAuthResult(authResult){
-  var status = document.getElementById('status');
+  document.querySelector('polymer-ui-overlay').active = false;
   if (authResult) {
     if (!authResult.error){
-      document.getElementsByTagName('header')[0].style.display = 'none';
       authenticatedUser();
     } else {
-      status.innerHTML = 'Authorization Error: ' + authResult.error
+      console.log('Authorization Error: ' + authResult.error)
     }
   } else {
     // This state means the user has never authorized
     // the app, so we need to prompt them to.
-    status.innerHTML = 'Authorization Required'
-    document.getElementById('auth_prompt').style.display = 'block';
+    console.log('Authorization Required')
+    document.querySelector('polymer-ui-overlay').active = true;
   }
 }
 
@@ -88,10 +70,15 @@ function createPicker() {
 // A simple callback implementation.
 function pickerCallback(data) {
   if (data.action == google.picker.Action.PICKED) {
-    loadMapApi();
     var fileId = data.docs[0].id;
     loadFile(fileId);
   }
+}
+
+function displayTitle(fileTitle){
+  var title = fileTitle + ' - Mapper';
+  document.title = title;
+  document.getElementById('title').innerHTML = title;
 }
 
 function loadFile(fileID){
@@ -100,7 +87,7 @@ function loadFile(fileID){
   });
   request.execute(function(file) {
     if (file.title) {
-      document.title = file.title + " - My Mapper";
+      displayTitle(file.title);
     }
     if (file.downloadUrl) {
       var xhr = new XMLHttpRequest();
