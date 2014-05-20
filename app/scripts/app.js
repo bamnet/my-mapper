@@ -5,6 +5,7 @@ function onApiLoad() {
 
 function onClientLoad() {
   gapi.client.load('drive', 'v2');
+  gapi.client.setApiKey(DEVELOPER_KEY);  // This is required to identify the app for unauthenticated users.
 }
 
 function authenticate(manual) {
@@ -20,10 +21,20 @@ function isDriveOpen(){
   return location.search.indexOf('?state=') > -1;
 }
 
+function isDirectOpen(){
+  return location.href.indexOf('?id=') > -1;
+}
+
 function getDriveState(){
   var regex = new RegExp('[\\?&]state=([^&#]*)');
   var results = regex.exec(location.search);
   return JSON.parse(decodeURIComponent(results[1].replace(/\+/g, ' ')));
+}
+
+function getDocId(){
+  var regex = new RegExp('[\\?]id=([^&#]*)');
+  var results = regex.exec(location.href);
+  return results[1];
 }
 
 function authenticatedUser(){
@@ -32,6 +43,8 @@ function authenticatedUser(){
     if (driveState.action == "open") {
       loadFile(driveState.ids[0]);
     }
+  } else if (isDirectOpen()) {
+    loadFile(getDocId());
   } else {
     createPicker();
   }
@@ -45,12 +58,16 @@ function handleAuthResult(authResult){
     } else {
       console.log('Authorization Error: ' + authResult.error)
     }
+  } else if (isDirectOpen()) {
+    loadFile(getDocId());
   } else {
-    // This state means the user has never authorized
-    // the app, so we need to prompt them to.
-    console.log('Authorization Required')
-    document.querySelector('polymer-ui-overlay').active = true;
+    requireAuth();
   }
+}
+
+function requireAuth() {
+  console.log('Authorization Required')
+  document.querySelector('polymer-ui-overlay').active = true;
 }
 
 function createPicker() {
@@ -89,10 +106,17 @@ function loadFile(fileID){
     if (file.title) {
       displayTitle(file.title);
     }
+    if(file.error) {
+      requireAuth();
+    }
     if (file.downloadUrl) {
       var xhr = new XMLHttpRequest();
-      xhr.open('GET', file.downloadUrl);
-      xhr.setRequestHeader('Authorization', 'Bearer ' + gapi.auth.getToken().access_token);
+      if (gapi.auth.getToken()){
+        xhr.open('GET', file.downloadUrl);
+        xhr.setRequestHeader('Authorization', 'Bearer ' + gapi.auth.getToken().access_token);
+      } else {
+        xhr.open('GET', 'https://googledrive.com/host/' + fileID);
+      }
       xhr.onload = function() {
         var dataStr = xhr.responseText;
         try {
