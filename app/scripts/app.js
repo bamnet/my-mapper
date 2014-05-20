@@ -57,7 +57,7 @@ function createPicker() {
   var view = new google.picker.View(google.picker.ViewId.DOCS);
   view.setMimeTypes(MIME_TYPES.join(','));
   var picker = new google.picker.PickerBuilder()
-      .setAppId(CLIENT_ID)
+      .setAppId(APP_ID)
       .setOAuthToken(gapi.auth.getToken().access_token)
       .addView(view)
       .addView(new google.picker.DocsUploadView())
