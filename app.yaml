@@ -7,5 +7,7 @@ handlers:
 - url: /$
   static_files: dist/index.html
   upload: dist/.*
+  secure: always
 - url: /
   static_dir: dist
+  secure: always
