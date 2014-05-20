@@ -1,0 +1,9 @@
+<!DOCTYPE html><html class=no-js><head><meta charset=utf-8><meta http-equiv=X-UA-Compatible content="IE=edge"><title>Mapper</title><meta name=description content=""><meta name=viewport content="width=device-width, initial-scale=1"><link rel="shortcut icon" href=/6df2b309.favicon.ico><link rel=stylesheet href=styles/cacc0278.main.css><script src=scripts/c5bc1457.vendor.js></script><link rel=import href=build.html><body unresolved=""><polymer-ui-toolbar><polymer-ui-icon-button icon=drawer id=docOpen></polymer-ui-icon-button><div flex="" id=title>Mapper</div></polymer-ui-toolbar><polymer-ui-overlay id=authOverlay modal=true backdrop=true><div><h2>Authorization Required</h2><div>Mapper needs to be authorized to read files from your Google Drive. Click below to allow access to read files and install an 'Open with Mapper' option in Google Drive.<br><br>Note: You may need to disable any pop-up blockers.</div><button type=button class="btn btn-default btn-lg" id=authButton><span class="glyphicon glyphicon-lock"></span> Authorize</button></div></polymer-ui-overlay><google-map latitude=1 longitude=1 zoom=2></google-map><script>var map;
+        document.getElementById('authButton').addEventListener('click', function(){authenticate(true)});
+        document.getElementById('docOpen').addEventListener('click', function(){createPicker()});
+        document.addEventListener('WebComponentsReady', function() {
+          var googleMap = document.querySelector('google-map');
+          googleMap.addEventListener('api-load', function(e) {
+            map = this.map;
+          });
+        });</script><script src=scripts/6c189bbc.main.js></script><script type=text/javascript src="https://apis.google.com/js/api.js?onload=onApiLoad"></script><script type=text/javascript src="https://apis.google.com/js/client.js?onload=onClientLoad"></script>
