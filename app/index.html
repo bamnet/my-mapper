@@ -6,21 +6,22 @@
         <title>Mapper</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
-
+        <link rel="shortcut icon" href="/favicon.ico">
         <!-- build:css styles/main.css -->
+        <!-- bower:css -->
         <link rel="stylesheet" href="styles/main.css">
+        <!-- endbower -->
         <!-- endbuild-->
 
-        <!-- Place your HTML imports here -->
-        <script src="bower_components/platform/platform.js"></script>
-        <script src="scripts/config.js"></script>
-        <script src="scripts/app.js"></script>
-        <link rel="import" href="bower_components/polymer-ui-toolbar/polymer-ui-toolbar.html">
-        <link rel="import" href="bower_components/polymer-ui-icon-button/polymer-ui-icon-button.html">
-        <link rel="import" href="bower_components/polymer-ui-toolbar/polymer-ui-toolbar.html">
-        <link rel="import" href="bower_components/polymer-ui-overlay/polymer-ui-overlay.html">
-        <link rel="import" href="bower_components/google-map/google-map.html">
+      <!-- build:js scripts/vendor.js -->
+      <!-- bower:js -->
+        <script src="../bower_components/platform/platform.js"></script>
+      <!-- endbower -->
+      <!-- endbuild -->
+
+        <!-- build:[href]:dist build.html -->
+        <link rel="import" href="import.html">
+        <!-- /build-->
     </head>
     <body unresolved>
       <polymer-ui-toolbar>
@@ -46,7 +47,7 @@
       <script>
         var map;
         document.getElementById('authButton').addEventListener('click', function(){authenticate(true)});
-        document.getElementById('docOpen').addEventListener('click', createPicker);
+        document.getElementById('docOpen').addEventListener('click', function(){createPicker()});
         document.addEventListener('WebComponentsReady', function() {
           var googleMap = document.querySelector('google-map');
           googleMap.addEventListener('api-load', function(e) {
@@ -54,6 +55,12 @@
           });
         });
       </script>
+      <!-- build:js({app,.tmp}) scripts/main.js -->
+      <!-- bower:js -->
+        <script src="scripts/config.js"></script>
+        <script src="scripts/app.js"></script>
+      <!-- endbower -->
+      <!-- endbuild -->
       <script type='text/javascript' src='https://apis.google.com/js/api.js?onload=onApiLoad'></script>
       <script type='text/javascript' src='https://apis.google.com/js/client.js?onload=onClientLoad'></script>
     </body>

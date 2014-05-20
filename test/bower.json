@@ -1,5 +1,5 @@
 {
-  "name": "my-mapper-2",
+  "name": "mapper",
   "private": true,
   "dependencies": {
     "chai": "~1.8.0",
