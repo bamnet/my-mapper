@@ -77,7 +77,6 @@ function createPicker() {
       .setAppId(APP_ID)
       .setOAuthToken(gapi.auth.getToken().access_token)
       .addView(view)
-      .addView(new google.picker.DocsUploadView())
       .setDeveloperKey(DEVELOPER_KEY)
       .setCallback(pickerCallback)
       .build();
