@@ -71,6 +71,10 @@ function requireAuth() {
 }
 
 function createPicker() {
+  if(!gapi.auth.getToken()){
+    requireAuth();
+    return;
+  }
   var view = new google.picker.View(google.picker.ViewId.DOCS);
   view.setMimeTypes(MIME_TYPES.join(','));
   var picker = new google.picker.PickerBuilder()
