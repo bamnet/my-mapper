@@ -1,0 +1,28 @@
+{
+  "name": "Mapper",
+  "description": "View GeoJSON files on a map.",
+  "version": "0.0.2.1",
+  "manifest_version": 2,
+  "container": "GOOGLE_DRIVE",
+  "api_console_project_id" : "654605676598",
+  "gdrive_mime_types": {
+    "http://drive.google.com/intents/opendrivedoc": [
+      {
+        "type": ["application/json","application/x-javascript","text/javascript",
+                 "text/x-javascript","text/x-json","application/octet-stream",
+                 "application/vnd.google.drive.ext-type.json"],
+        "href": "https://my-mapper-prod.appspot.com/",
+        "title" : "Open",
+        "disposition" : "window"
+      }
+    ]
+  },
+  "icons": {
+    "128": "icon_128.png"
+  },
+  "app": {
+    "launch": {
+      "web_url": "https://my-mapper-prod.appspot.com/"
+    }
+  }
+}
