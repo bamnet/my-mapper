@@ -97,6 +97,12 @@ function displayTitle(fileTitle){
   document.getElementById('title').innerHTML = title;
 }
 
+function recordState(title, id){
+  var title = title + ' - Mapper';
+  var url = '/?id=' + id;
+  window.history.pushState({}, title, url);
+}
+
 function loadFile(fileID){
   var request = gapi.client.drive.files.get({
     'fileId': fileID
@@ -105,6 +111,7 @@ function loadFile(fileID){
     if (file.title) {
       displayTitle(file.title);
     }
+    recordState(file.title, file.id);
     if(file.error) {
       requireAuth();
     }
